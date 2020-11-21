@@ -27,8 +27,8 @@ public class OrderBook {
             }
             case ("snapshot"): {
                 Snapshot snapshot = JSONUtils.toSnapshot(tick);
-                this.asks = snapshot.getAsks();
-                this.bids = snapshot.getBids();
+                this.asks = snapshot.getAsks().subList(0, 10);
+                this.bids = snapshot.getBids().subList(0, 10);
                 this.print();
                 break;
             }
@@ -83,15 +83,9 @@ public class OrderBook {
 //                    System.out.println(String.format("set: %s", i));
                     book.set(i, change.subList(1, 3));
                 }
-            } else if (
-                    // TODO
-                    (changePrice.compareTo(currentPrice) == 1 && side == "buy") ||
-                            (changePrice.compareTo(currentPrice) == -1 && side == "sell")
-            ) {
-                System.out.println("insert");
-                book.add(i, change.subList(1, 3));
-                return;
             }
         }
+        // If no updates on the current book, then it must be an insertion;
+        book.add(change.subList(1, 3));
     }
 }
