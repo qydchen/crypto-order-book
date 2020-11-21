@@ -27,7 +27,7 @@ public class CryptoOrderBookApplication extends SpringBootServletInitializer {
 			final WebSocketClientEndpoint clientEndPoint = new WebSocketClientEndpoint(new URI(Constants.server_websocket_url));
 			clientEndPoint.addMessageHandler(tick -> orderBook.receiveTick(tick));
 
-			List<String> productIds = Arrays.asList(String.format("%s-USD", args[0]));
+			List<String> productIds = Arrays.asList(args);
 			SubscribeToCoinBase subscription = new SubscribeToCoinBase(productIds);
 			Gson gson = new Gson();
 			clientEndPoint.sendMessage(gson.toJson(subscription));
