@@ -15,7 +15,7 @@ public class OrderBook {
     final int buffer = 50;
     private List<List<String>> asks;
     private List<List<String>> bids;
-    private List<String> logs = new ArrayList(Collections.emptyList());
+    final private List<String> logs = new ArrayList(Collections.emptyList());
     public void receiveTick(String tick) {
         String type = JSONUtils.getType(tick);
         switch (type) {
@@ -61,7 +61,7 @@ public class OrderBook {
                     return;
                 }
             } else if (changeSize.compareTo(BigDecimal.ZERO) != 0) {
-                if ((side.equals("buy") && changePrice.compareTo(currentPrice) == 1) ||
+                if ((side.equals("buy") && changePrice.compareTo(currentPrice) > 0) ||
                         (side.equals("sell") && changePrice.compareTo(currentPrice) == -1)) {
                     this.logs.add(String.format("add index: %s, currentOrder: %s", i, currentOrder));
                     book.add(i, change.subList(1, 3));
@@ -87,7 +87,7 @@ public class OrderBook {
         System.out.println("Asks ^------------v Bids");
         this.bids.subList(0, depth).forEach(t -> System.out.println(String.join(delimiter, t)));
 
-        System.out.println(String.format("asks size: %s, bids size: %s", this.asks.size(), this.bids.size()));
+        System.out.printf("asks size: %s, bids size: %s%n", this.asks.size(), this.bids.size());
         for (String log : logs) {
             System.out.println(log);
         }
