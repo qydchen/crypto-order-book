@@ -8,13 +8,14 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
+import java.util.ArrayList;
 
 public class OrderBook {
     final int depth = 10;
     final int buffer = 50;
     private List<List<String>> asks;
     private List<List<String>> bids;
-    private List<String> logs = Collections.emptyList();
+    private List<String> logs = new ArrayList(Collections.emptyList());
     public void receiveTick(String tick) {
         String type = JSONUtils.getType(tick);
         switch (type) {
@@ -87,7 +88,9 @@ public class OrderBook {
         this.bids.subList(0, depth).forEach(t -> System.out.println(String.join(delimiter, t)));
 
         System.out.println(String.format("asks size: %s, bids size: %s", this.asks.size(), this.bids.size()));
-        System.out.println(this.logs);
+        for (String log : logs) {
+            System.out.println(log);
+        }
     }
 
     private void resize() {
@@ -99,7 +102,7 @@ public class OrderBook {
         }
         int maxLogSize = 5;
         if (this.logs.size() > maxLogSize) {
-            this.logs = this.logs.subList(0, maxLogSize - 1);
+            this.logs.remove(0);
         }
     }
 }
