@@ -52,22 +52,22 @@ public class OrderBook {
             BigDecimal currentPrice = new BigDecimal(currentOrder.get(0));
             if (changePrice.compareTo(currentPrice) == 0) {
                 if (changeSize.compareTo(BigDecimal.ZERO) == 0) {
-                    this.logs.add(String.format("removing index: %s, currentOrder: %s", i, currentOrder));
+                    this.logs.add(String.format("side %s, removing index: %s, currentOrder: %s", side, i, currentOrder));
                     book.remove(i);
                     return;
                 } else {
-                    this.logs.add(String.format("set index: %s, currentOrder: %s", i, currentOrder));
+                    this.logs.add(String.format("side %s, set index: %s, currentOrder: %s", side, i, currentOrder));
                     book.set(i, change.subList(1, 3));
                     return;
                 }
             } else if (changeSize.compareTo(BigDecimal.ZERO) != 0) {
                 if ((side.equals("buy") && changePrice.compareTo(currentPrice) > 0) ||
                         (side.equals("sell") && changePrice.compareTo(currentPrice) == -1)) {
-                    this.logs.add(String.format("add index: %s, currentOrder: %s", i, currentOrder));
+                    this.logs.add(String.format("side %s, add index: %s, currentOrder: %s", side, i, currentOrder));
                     book.add(i, change.subList(1, 3));
                     return;
                 } else if (book.size() < depth + buffer) {
-                    this.logs.add(String.format("add to end index: %s, currentOrder: %s", i, currentOrder));
+                    this.logs.add(String.format("side %s, add to end index: %s, currentOrder: %s", side, i, currentOrder));
                     book.add(change.subList(1, 3));
                     return;
                 }
