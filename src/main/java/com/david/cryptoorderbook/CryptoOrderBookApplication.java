@@ -25,7 +25,7 @@ public class CryptoOrderBookApplication extends SpringBootServletInitializer {
 		OrderBook orderBook = new OrderBook();
 		try {
 			final WebSocketClientEndpoint clientEndPoint = new WebSocketClientEndpoint(new URI(Constants.server_websocket_url));
-			clientEndPoint.addMessageHandler(tick -> orderBook.receiveTick(tick));
+			clientEndPoint.addMessageHandler(orderBook::receiveTick);
 
 			List<String> productIds = Arrays.asList(args);
 			SubscribeToCoinBase subscription = new SubscribeToCoinBase(productIds);

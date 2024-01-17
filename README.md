@@ -1,3 +1,5 @@
+**NOTE**: This project does not work due to Coinbase API requiring authentication for the ws endpoint
+
 Make sure java runtime is compatible for java 11.
 
 From the project root directory, and after maven install:
